@@ -46,6 +46,16 @@ def rock_scissors_paper_round(latter):
     return result
 
 
+def get_result_text(result):
+    """Получаем результат текстом."""
+    if result is True:
+        return 'You score!'
+    elif result is False:
+        return 'Computer scores!'
+    elif result is None:
+        return 'Draw!'
+
+
 def rock_scissors_paper_game_three():
     """Игра камень-ножницы-бумага в три раунда."""
     computer_wins = 0

@@ -13,7 +13,18 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
 
 from dotenv import load_dotenv
+
+from rock_paper_scissors import rock_scissors_paper_round
+
+from rock_paper_scissors import get_result_text
+
 load_dotenv()
+
+BUTTON_NAMES = {
+    'r': 'Rock',
+    's': 'Scissors',
+    'p': 'Paper',
+}
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -22,10 +33,15 @@ logger = logging.getLogger(__name__)
 
 
 def start(update, context):
-    keyboard = [[InlineKeyboardButton("Rock", callback_data='Rock'),
-                 InlineKeyboardButton("Scissors", callback_data='Scissors')],
-
-                [InlineKeyboardButton("Paper", callback_data='Paper')]]
+    keyboard = [
+        [
+            InlineKeyboardButton("Rock⛰", callback_data='r'),
+            InlineKeyboardButton("Scissors✂️", callback_data='s')
+        ],
+        [
+            InlineKeyboardButton("Paper📃", callback_data='p')
+        ]
+    ]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -39,7 +55,11 @@ def button(update, context):
     # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
     query.answer()
 
-    query.edit_message_text(text="Selected option: {}".format(query.data))
+    result = rock_scissors_paper_round(query.data)
+
+    text = f"Your choice: {BUTTON_NAMES[query.data]}. Result: {get_result_text(result)}"
+
+    query.edit_message_text(text=text)
 
     print('callback:', update.callback_query.data)
 
