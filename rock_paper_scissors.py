@@ -1,6 +1,7 @@
 from random import randint
 
 
+
 def find_winner(choice_a, choice_b):
     """
     возвращает True, если выиграл A, ...
@@ -42,7 +43,7 @@ def rock_scissors_paper_round(latter):
     x = randint(0, 2)
     choice = variant_list[x]
     print('...' + latter + ' vs ' + choice)
-    result = find_winner_alternative(latter, choice, variant_list)
+    result = find_winner(latter, choice)
     return result
 
 
@@ -83,6 +84,12 @@ def rock_scissors_paper_game_three():
             print('You win!')
             break
 
+
+def get_user_score():
+    """Запоминает счет пользователя."""
+    context.user_data = {}
+    round_score = 1
+    context.user_data['user_score'] = context.user_data.get('user_score', 0) + round_score
 
 if __name__ == '__main__':
     rock_scissors_paper_game_three()

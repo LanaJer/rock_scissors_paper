@@ -55,14 +55,29 @@ def button(update, context):
     # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
     query.answer()
 
+    if 'user_score' not in context.user_data:
+        context.user_data['user_score'] = 0
+    if 'bot_score' not in context.user_data:
+        context.user_data['bot_score'] = 0
+
     result = rock_scissors_paper_round(query.data)
 
-    text = f"Your choice: {BUTTON_NAMES[query.data]}. Result: {get_result_text(result)}"
+    if result is True:
+        context.user_data['user_score'] += 1
+    elif result is False:
+        context.user_data['bot_score'] += 1
 
-    query.edit_message_text(text=text)
+    text = (
+        f"Your choice: {BUTTON_NAMES[query.data]}\n"
+        f"Result: {get_result_text(result)}\n"
+        f"Your score: {context.user_data['user_score']}\n"
+        f"Bot score: {context.user_data['bot_score']}"
+
+    )
+
+    query.edit_message_text(text)
 
     print('callback:', update.callback_query.data)
-
 
 def help(update, context):
     update.message.reply_text("Use /start to test this bot.")
