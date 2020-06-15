@@ -45,6 +45,9 @@ def start(update, context):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
+    context.user_data['user_score'] = 0
+    context.user_data['bot_score'] = 0
+
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
 
@@ -75,9 +78,20 @@ def button(update, context):
 
     )
 
-    query.edit_message_text(text)
+    keyboard = [
+        [
+            InlineKeyboardButton("Rock⛰", callback_data='r'),
+            InlineKeyboardButton("Scissors✂️", callback_data='s'),
+            InlineKeyboardButton("Paper📃", callback_data='p')
+        ]
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    query.edit_message_text(text=text, reply_markup=reply_markup)
 
     print('callback:', update.callback_query.data)
+
 
 def help(update, context):
     update.message.reply_text("Use /start to test this bot.")
