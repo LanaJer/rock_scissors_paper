@@ -93,10 +93,10 @@ def button(update, context):
 
     if context.user_data['user_score'] == 3 or context.user_data['bot_score'] == 3:
         if context.user_data['user_score'] == 3:
-            text = 'You lose!'
+            text = 'You win!'
             print(text)
         elif context.user_data['bot_score'] == 3:
-            text = 'You win!'
+            text = 'You lose!'
             print(text)
 
         keyboard = [
